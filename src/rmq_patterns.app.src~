@@ -18,7 +18,8 @@
                   stdlib
                  ]},
   {env, [
-
-
-  ]}
+	{rabbit_user,<<"chat.spark.net">>},
+	{rabbit_pass,<<"chat.spark.net">>},
+	{rabbit_host,<<"192.168.4.128">>},
+	{rabbit_vhost,<<"/">>}]}
  ]}.
