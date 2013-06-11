@@ -71,7 +71,7 @@ stop(Pid) ->
 
 %% @private
 init([Connection, ControlExchange, ControlRKey]) ->
-    {ok, Channel} = amqp_connection:open_channel(Connection),
+    {ok, Channel} = misc:open_channel(Connection),
     
     {ok, ControlCTag} = amqp_utils:init_controlled_consumer(Channel, 
                             ControlExchange, ControlRKey),

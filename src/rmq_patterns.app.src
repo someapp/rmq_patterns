@@ -1,8 +1,9 @@
 {application, rmq_patterns,
  [
-  {description, ""},
-  {vsn, "1"},
-  {modules, [
+  {description, "RabbitMq usage pattern"},
+  {vsn, "1.0.0"},
+  {modules, [ 
+	      rmq_patterns.erl,
               amqp_consumer.erl,
               amqp_control_bus.erl,
               amqp_detour.erl,
@@ -18,7 +19,23 @@
                   stdlib
                  ]},
   {env, [
-
-
+		 {username, <<"chat.spark.net">>},
+		 {password, <<"chat.spark.net">>},
+                 {virtual_host, <<"/">>},
+		 {host, "192.168.4.128"}
+%	{primary,{
+%		  {username, <<"guest">>},
+%		  {password, <<"guest">>},
+%                  {virtual_host, <<"/">>},
+%		  {host, "192.168.4.128"}
+%	}},
+%	{backup1,
+%		{
+%		 {username, <<"guest">>},
+%		 {password, <<"guest">>},
+%                 {virtual_host, <<"/">>},
+%		 {host, "192.168.4.128"}
+% 	}} 
+	
   ]}
  ]}.

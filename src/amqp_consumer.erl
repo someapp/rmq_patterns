@@ -10,7 +10,7 @@
 -export([start_link/1, start/1]).
 -export([stop/1]).
 
--export([start_demo/2]).
+-export([start_start_server/2]).
 
 -record(state, {channel,
                 control_ctag,
@@ -19,9 +19,10 @@
                 consumer_ctag = <<"">>,
                 callback}).
 
-%% amqp_consumer:start_demo(<<"control">>, <<"my.rkey">>).
-start_demo(Exchange, RKey) ->
-  {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
+%% amqp_consumer:start_start_server(<<"control">>, <<"my.rkey">>).
+start_start_server(Exchange, RKey) ->
+%  {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
+  {ok, Connection} = misc:setup_connection(),
   ?MODULE:start([Connection, Exchange, RKey]).
 
 start([Connection, ControlExchange, ControlRKey]) ->
@@ -34,8 +35,7 @@ stop(Pid) ->
     gen_server:call(Pid, stop, infinity).
 
 init([Connection, ControlExchange, ControlRKey]) ->
-    {ok, Channel} = amqp_connection:open_channel(Connection),
-
+    {ok, Channel} = misc:open_channel(Connection),
     {ok, ControlCTag} = amqp_utils:init_controlled_consumer(Channel,
                             ControlExchange, ControlRKey),
 

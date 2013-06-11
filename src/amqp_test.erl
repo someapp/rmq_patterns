@@ -5,7 +5,7 @@
 -include("amqp_client.hrl").
 
 start(Opts) ->
-    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
+    {ok, Connection} = misc:setup_connection(),
     ProxyEx = <<"char_count">>,
     RpcExchange = <<"char_count_server">>,
     ControlExchange = <<"control">>,

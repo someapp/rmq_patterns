@@ -10,7 +10,7 @@
 -export([start/1, start_link/1]).
 -export([stop/1]).
 
--export([start_demo/0, start_demo/1, detour_msg/5, consumer_msg/3]).
+-export([start_debug/0, start_debug/1, detour_msg/5, consumer_msg/3]).
 
 -record(state, {channel,
                 control_exchange}).
@@ -19,19 +19,19 @@
 %% API
 %%--------------------------------------------------------------------------
 
-demo(Opts) ->
-    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
+start_server(Opts) ->
+    {ok, Connection} = misc:setup_connection(),
     ControlExchange = <<"control">>,
     {ok, Pid} = amqp_control_bus:start([Connection, ControlExchange, Opts]),
     io:format("Server started with Pid: ~p~n", [Pid]),
     {ok, Pid}.
 
-%% {ok, Pid} = amqp_control_bus:start_demo().
-start_demo() ->
-    demo([]).
+%% {ok, Pid} = amqp_control_bus:start_debug().
+start_debug() ->
+    start_server([]).
 
-start_demo(debug) ->
-    demo([{debug, [trace]}]).
+start_debug(debug) ->
+    start_server([{debug, [trace]}]).
 
 %% amqp_control_bus:detour_msg(C, <<"detour_step_detour">>, <<"#">>, <<"detour_step_final">>, <<"">>).
 %% amqp_control_bus:detour_msg(C, <<"detour_step_detour">>, <<"#">>, <<"detour_step_a">>, <<"">>).
@@ -62,7 +62,7 @@ stop(Pid) ->
 
 %% @private
 init([Connection, ControlExchange]) ->
-    {ok, Channel} = amqp_connection:open_channel(Connection),
+    {ok, Channel} = misc:open_channel(Connection),
 
     {ok, #state{channel = Channel, control_exchange = ControlExchange}}.
 

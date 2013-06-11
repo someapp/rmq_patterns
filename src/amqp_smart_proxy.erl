@@ -13,7 +13,7 @@
 -export([stop/1]).
 -export([stats/1, clear_stats/1]).
 
--export([start_demo/0, start_demo/1]).
+-export([start_debug/0, start_debug/1]).
 
 -record(state, {channel,
                 control_exchange,
@@ -41,19 +41,19 @@
 %% API
 %%--------------------------------------------------------------------------
 
-demo(Opts) ->
-    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
+start_server(Opts) ->
+    {ok, Connection} = misc:setup_connection(),
     ControlExchange = <<"control">>,
     ControlRKey = <<"control.smart_proxy">>,
     Pid = amqp_smart_proxy:start([Connection, ControlExchange, ControlRKey, Opts]),
     io:format("Server started with Pid: ~p~n", [Pid]),
     Pid.
 
-start_demo() ->
-    demo([]).
+start_debug() ->
+    start_server([]).
 
-start_demo(debug) ->
-    demo([{debug, [trace]}]).
+start_debug(debug) ->
+    start_server([{debug, [trace]}]).
 
 start([Connection, ControlExchange, ControlRKey, Opts]) ->
     {ok, Pid} = gen_server:start(?MODULE, [Connection, ControlExchange, ControlRKey], Opts),
@@ -73,7 +73,7 @@ clear_stats(Pid) ->
 %%--------------------------------------------------------------------------
 
 init([Connection, ControlExchange, ControlRKey]) ->
-    {ok, Channel} = amqp_connection:open_channel(Connection),
+    {ok, Channel} = misc:open_channel(Connection),
     
     {ok, ControlCTag} = amqp_utils:init_controlled_consumer(Channel, 
                             ControlExchange, ControlRKey),
