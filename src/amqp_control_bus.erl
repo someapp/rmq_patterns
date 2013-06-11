@@ -20,7 +20,7 @@
 %%--------------------------------------------------------------------------
 
 demo(Opts) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
     ControlExchange = <<"control">>,
     {ok, Pid} = amqp_control_bus:start([Connection, ControlExchange, Opts]),
     io:format("Server started with Pid: ~p~n", [Pid]),

@@ -28,7 +28,7 @@
 
 
 demo(Opts) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
     ControlExchange = <<"control">>,
     ControlRKey = <<"control.detour">>,
     Pid = amqp_detour:start([Connection, ControlExchange, ControlRKey, Opts]),

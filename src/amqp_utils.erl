@@ -10,7 +10,7 @@ get_connection_params() ->
     {ok, Pass} = application:get_env(rabbit_pass),
     {ok, Vhost} = application:get_env(rabbit_vhost),
     {ok, Host} = application:get_env(rabbit_host),
-    #amqp_params{username = User, password=Pass,
+    #amqp_params_network{username = User, password=Pass,
                  virtual_host = Vhost, host = Host}.
 
 init_controlled_consumer(Channel, ControlExchange, ControlRKey) ->
@@ -44,7 +44,7 @@ stop_consumers([CTag|T], Channel) ->
 
 %% amqp_utils:send_msg(<<"my_exchange">>, <<"I can't explain myself, I'm afraid, Sir, because I'm not myself you see.">>, <<"consumer.key">>).
 send_msg(Exchange, Msg, RKey) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start(network, #amqp_params_network{}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
     Publish = #'basic.publish'{exchange = Exchange, routing_key = RKey},
     amqp_channel:call(Channel, Publish, #amqp_msg{payload = Msg}),

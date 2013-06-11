@@ -21,7 +21,7 @@
 
 %% amqp_consumer:start_demo(<<"control">>, <<"my.rkey">>).
 start_demo(Exchange, RKey) ->
-  {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+  {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
   ?MODULE:start([Connection, Exchange, RKey]).
 
 start([Connection, ControlExchange, ControlRKey]) ->

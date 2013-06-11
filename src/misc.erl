@@ -9,7 +9,7 @@
          publish_msg/3]).
 
 declare_exchanges(Exchanges) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start(#amqp_params_network{}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
 
     [ #'exchange.declare_ok'{} = amqp_channel:call(Channel,
@@ -34,7 +34,7 @@ word_reverse_callback(_Channel, #amqp_msg{payload = Msg}) ->
   io:format("Reversed Words: ~p~n", [Words]).
 
 publish_msg(Exchange, Msg, RKey) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start(network, #amqp_params_network{}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
 
     Publish = #'basic.publish'{exchange = Exchange, routing_key = RKey},

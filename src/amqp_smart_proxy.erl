@@ -42,7 +42,7 @@
 %%--------------------------------------------------------------------------
 
 demo(Opts) ->
-    {ok, Connection} = amqp_connection:start(network, #amqp_params{}),
+    {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
     ControlExchange = <<"control">>,
     ControlRKey = <<"control.smart_proxy">>,
     Pid = amqp_smart_proxy:start([Connection, ControlExchange, ControlRKey, Opts]),
