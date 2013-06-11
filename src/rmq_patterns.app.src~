@@ -18,8 +18,8 @@
                   stdlib
                  ]},
   {env, [
-	{rabbit_user,<<"guest">>},
-	{rabbit_pass,<<"guest">>},
-	{rabbit_host,<<"localhost">>},
-	{rabbit_vhost,<<"/">>}]}
+	{rabbit_user,"guest"},
+	{rabbit_pass,"guest"},
+	{rabbit_host,"localhost"},
+	{rabbit_vhost,"/"}]}
  ]}.
