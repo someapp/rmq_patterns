@@ -10,7 +10,7 @@
 -export([start_link/1, start/1]).
 -export([stop/1]).
 
--export([start_start_server/2]).
+-export([start_server/2]).
 
 -record(state, {channel,
                 control_ctag,
@@ -20,7 +20,7 @@
                 callback}).
 
 %% amqp_consumer:start_start_server(<<"control">>, <<"my.rkey">>).
-start_start_server(Exchange, RKey) ->
+start_server(Exchange, RKey) ->
 %  {ok, Connection} = amqp_connection:start( #amqp_params_network{}),
   {ok, Connection} = misc:setup_connection(),
   ?MODULE:start([Connection, Exchange, RKey]).
